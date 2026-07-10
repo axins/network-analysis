@@ -37,3 +37,5 @@ multiplex-network-analysis/
 ## License
 
 MIT
+
+## Author Zhangbo Yang @ XJTU yang_zb@xjtu.edu.cn
