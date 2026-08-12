@@ -1,0 +1,4 @@
+pair,edge_jaccard,shared_edges,edges_friend,edges_social,edges_task
+friend-social,0.2524,26,62.0,67.0,
+friend-task,0.2529,22,62.0,,47.0
+social-task,0.6522,45,,67.0,47.0

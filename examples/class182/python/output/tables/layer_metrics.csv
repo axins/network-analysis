@@ -1,0 +1,4 @@
+layer,nodes,edges,density,avg_degree,avg_clustering,components,gcc_ratio,diameter,avg_path_length,assortativity,reciprocity
+friend,16,62,0.35,3.875,0.4817,3,0.875,3,1.5714,-0.0286,0.6452
+social,16,67,0.5583333333333333,8.375,0.6886,1,1.0,2,1.4417,-0.2761,
+task,16,47,0.39166666666666666,5.875,0.7616,1,1.0,2,1.6083,-0.2562,

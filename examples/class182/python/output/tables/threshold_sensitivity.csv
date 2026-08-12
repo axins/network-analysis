@@ -1,0 +1,3 @@
+layer,edges_gt0,t>=1.0,t>=1.5,t>=2.0
+social_tie,67,34,27,21
+task_tie,47,15,13,12

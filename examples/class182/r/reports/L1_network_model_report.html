@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>L1 网络模型分析报告</title>
+<style>
+ body{font-family:"Microsoft YaHei",sans-serif;max-width:920px;margin:0 auto;padding:24px 40px 60px;line-height:1.7;color:#222}
+ h1{color:#1a3a5c;border-bottom:3px solid #2e6da4;padding-bottom:8px}
+ h2{color:#1a3a5c;border-bottom:1px solid #ccc;padding-bottom:5px;margin-top:30px}
+ table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px}
+ th,td{border:1px solid #ccc;padding:7px 10px;text-align:center}
+ th{background:#2e6da4;color:#fff} tr:nth-child(even){background:#f5f8fc}
+ img{max-width:100%;height:auto;margin:10px 0;border:1px solid #ddd;border-radius:4px}
+ blockquote{border-left:4px solid #2e6da4;margin:12px 0;padding:2px 14px;background:#f5f8fc;color:#555}
+</style></head><body><h1>L1 网络模型分析报告：class182 班级友谊网络</h1>
+<blockquote>
+<p>依据 <code>L1 network model.Rmd</code> 的分析逻辑，将"网络模型构建"方法应用于 class182 班级友谊网络（16 名学生，42 条有向边）。分析覆盖小世界特性检验、无标度检验、同配性、Rich-club、网络效率与配置模型对比。</p>
+</blockquote>
+<hr />
+<h2>一、数据与网络构建</h2>
+<p>以 class182 友谊提名数据（<code>friend_tie &gt; 0</code>）构建有向网络，并转为无向（collapse 模式）用于结构分析。网络规模：节点 16.0，边 42.0，密度 0.35。</p>
+<h2>二、小世界特性检验</h2>
+<p>小世界网络兼具"高聚类系数 + 短平均路径长度"。通过与同规模同密度（100 次）随机网络的基准对比，计算小世界系数 σ = (CC/CC_rand)/(APL/APL_rand)：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">指标</th>
+<th style="text-align: center;">观测网络</th>
+<th style="text-align: center;">随机网络基准</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">聚类系数 CC</td>
+<td style="text-align: center;">0.5115</td>
+<td style="text-align: center;">0.3337</td>
+</tr>
+<tr>
+<td style="text-align: left;">平均路径长度 APL</td>
+<td style="text-align: center;">1.5714</td>
+<td style="text-align: center;">1.7526</td>
+</tr>
+<tr>
+<td style="text-align: left;">小世界系数 σ</td>
+<td style="text-align: center;"><strong>1.7098</strong></td>
+<td style="text-align: center;">—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>判断</strong>：σ = 1.7098 &gt; 1，说明友谊网络的聚类系数（0.5115）显著高于随机基准，而平均路径长度（1.5714）并未相应拉长。<strong>该班级友谊网络具有明显的小世界特性</strong>——"圈子紧密、几步可达"。</p>
+<h2>三、无标度特性检验</h2>
+<p>无标度网络的核心特征是度分布服从幂律 P(k)∝k^(−α)，典型 α 在 2–3 之间：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">指标</th>
+<th style="text-align: center;">数值</th>
+<th style="text-align: left;">判断</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">幂指数 α</td>
+<td style="text-align: center;">9.7468</td>
+<td style="text-align: left;">远大于 3</td>
+</tr>
+<tr>
+<td style="text-align: left;">KS 统计量</td>
+<td style="text-align: center;">0.055</td>
+<td style="text-align: left;">拟合不佳</td>
+</tr>
+<tr>
+<td style="text-align: left;">对数-对数拟合 R²</td>
+<td style="text-align: center;">0.01</td>
+<td style="text-align: left;">近乎无线性关系</td>
+</tr>
+</tbody>
+</table>
+<p><strong>判断</strong>：幂指数 α = 9.7468，远超无标度典型范围，且对数-对数拟合极差。<strong>该网络不符合无标度特征</strong>——16 人的小规模班级网络不存在"少数枢纽占据海量连接"的分布形态，度分布近似均匀。</p>
+<p><img alt="度分布对数-对数图" src="data:image/png;base64,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" /></p>
+<blockquote>
+<p>图：度分布对数-对数图</p>
+</blockquote>
+<h2>四、同配性分析</h2>
+<p><strong>度-度同配性系数</strong> = -0.0286：接近 0，说明高连接者与低连接者之间无明显"同类相聚"或"枢纽辐射"倾向——小班级中连接分布较为均衡。</p>
+<p><strong>按性别的名义同配性</strong> = 0.2202：为正，说明<strong>学生倾向于与同性别同伴建立友谊</strong>，符合社会网络研究中的同质性（homophily）原理。这一发现为后续"性别同质性"假设提供了描述性支持。</p>
+<h2>五、Rich-club 分析</h2>
+<p>Rich-club 系数刻画"高连接节点之间是否形成紧密小团体"。曲线显示友谊网络的 Rich-club 系数整体低于随机网络基准，且随度阈值 k 增大而下降——说明该班级<strong>不存在明显的"富人俱乐部"现象</strong>，核心节点之间并未比随机水平更紧密地彼此相连。</p>
+<p><img alt="Rich-club 曲线" src="data:image/png;base64,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" /></p>
+<blockquote>
+<p>图：Rich-club 曲线</p>
+</blockquote>
+<h2>六、网络效率</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">指标</th>
+<th style="text-align: center;">数值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">全局效率</td>
+<td style="text-align: center;">0.55</td>
+</tr>
+<tr>
+<td style="text-align: left;">局部效率</td>
+<td style="text-align: center;">0.5504</td>
+</tr>
+</tbody>
+</table>
+<p>全局效率（0.55）与局部效率（0.5504）接近，且全局效率低于随机网络基准（0.675）。班级规模小、路径短，信息传播效率处于中等水平；局部效率高反映"朋友的圈子内部也彼此相连"，与小世界的高聚类特征一致。</p>
+<h2>七、配置模型对比</h2>
+<p>配置模型保持度序列不变、随机重连边，作为零模型。将观测网络与配置模型对比，判断观测结构是否仅由度序列决定：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">指标</th>
+<th style="text-align: center;">观测网络</th>
+<th style="text-align: center;">配置模型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">聚类系数</td>
+<td style="text-align: center;">0.5115</td>
+<td style="text-align: center;">0.186</td>
+</tr>
+<tr>
+<td style="text-align: left;">同配性</td>
+<td style="text-align: center;">-0.0286</td>
+<td style="text-align: center;">-0.102</td>
+</tr>
+<tr>
+<td style="text-align: left;">平均路径长度</td>
+<td style="text-align: center;">1.5714</td>
+<td style="text-align: center;">1.6813</td>
+</tr>
+</tbody>
+</table>
+<p><strong>关键判断</strong>：观测网络的聚类系数（0.5115）是配置模型（0.186）的近 3 倍。这证明<strong>友谊网络的高聚类并非度分布的副产品</strong>，而是存在超越度序列的真实机制——即"朋友的朋友更容易成为朋友"（三元闭合/传递性）。这为后续的 ERGM 建模（加入 gwesp 传递性项）提供了直接依据。</p>
+<p><img alt="观测网络与配置模型度分布" src="data:image/png;base64,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" /></p>
+<blockquote>
+<p>图：观测网络与配置模型度分布</p>
+</blockquote>
+<h2>八、结论</h2>
+<p>对 class182 班级友谊网络，本分析得出三点结论：第一，网络具有<strong>小世界特性</strong>（σ=1.7098），高聚类、短路径；第二，<strong>非无标度</strong>（α=9.7468），小规模班级网络连接分布均衡；第三，<strong>存在超越度序列的聚集机制</strong>——配置模型对比显示观测聚类远高于随机期望，且存在性别同质性倾向，为机制类建模（ERGM）提供了动机与基础。</p>
+<hr />
+<p><em>报告由 network-analysis 工作流依据 L1 教程自动生成。</em></p></body></html>

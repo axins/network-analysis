@@ -1,0 +1,4 @@
+pair,node_jaccard,overlap_rate_friend,overlap_rate_social,overlap_rate_task
+friend-social,1.0,1.0,1.0,
+friend-task,1.0,1.0,,1.0
+social-task,1.0,,1.0,1.0
